@@ -1,0 +1,34 @@
+doctype html
+html(lang='en')
+head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title The Resistance Game
+    //
+       Bootstrap 
+    link(href='/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/stylesheets/style2.css', rel='stylesheet')
+  body
+    .container
+      .pagetitle
+        h1 The Resistance Game
+      .col-sm-offset-4.col-sm-4.loginform
+        form.form-horizontal(role='form')
+          .form-group
+            label.col-sm-3.control-label(for='username') Username
+            .col-sm-9
+              input#username.form-control(type='text', placeholder='Enter your name')
+          .form-group
+            label.col-sm-3.control-label(for='password') Password
+            .col-sm-9
+              input#password.form-control(type='password', placeholder='Enter your password')
+          .form-group
+            .col-sm-offset-3.col-sm-9
+              button.btn.btn-primary(type='submit') Sign in
+    //
+       jQuery (necessary for Bootstrap's JavaScript plugins) 
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    //
+       Include all compiled plugins (below), or include individual files as needed 
+    script(src='/bootstrap/js/bootstrap.min.js')
