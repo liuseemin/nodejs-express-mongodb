@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    .container
+      .pagetitle
+        h1 The Resistance Game
+      .col-sm-offset-4.col-sm-4.loginform
+        form.form-horizontal(role='form')
+          .form-group
+            label.col-sm-3.control-label(for='username') Username
+            .col-sm-9
+              input#username.form-control(type='text', placeholder='Enter your name')
+          .form-group
+            label.col-sm-3.control-label(for='password') Password
+            .col-sm-9
+              input#password.form-control(type='password', placeholder='Enter your password')
+          .form-group
+            .col-sm-offset-3.col-sm-6
+              button.btn.btn-primary(type='submit') Sign in
+            .col-sm-3(align='right')
+              a.btn.btn-link(href='/signup') Sign up
+            

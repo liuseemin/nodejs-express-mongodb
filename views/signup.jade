@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    script(src='/javascripts/validate.js')
+    .container
+      .pagetitle
+        h1 Sign Up
+      .col-sm-offset-4.col-sm-4.loginform
+        form.form-horizontal(role='form')
+          .form-group
+            label.col-sm-3.control-label(for='username') Username
+            .col-sm-9
+              input#username.form-control(type='text', placeholder='Enter your name', name='username')
+          .form-group
+            label.col-sm-3.control-label(for='password') Password
+            .col-sm-9
+              input#password.form-control(type='password', placeholder='Enter your password', name='password')
+          .form-group
+            label.col-sm-3.control-label(for='password') Confirm
+            .col-sm-9
+              input#confirm.form-control(type='password', placeholder='Enter your password again')
+          .form-group
+            .col-sm-offset-3.col-sm-6
+              button.btn.btn-success(type='submit') Sign up
+            .col-sm-3(align='right') 
+              a.btn.btn-link(href='/login') Sign in
+            
