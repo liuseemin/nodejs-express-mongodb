@@ -6,7 +6,7 @@ block content
       .pagetitle
         h1 Sign Up
       .col-sm-offset-4.col-sm-4.loginform
-        form.form-horizontal(role='form')
+        form.form-horizontal(role='form', action='/signup' method='post')
           .form-group
             label.col-sm-3.control-label(for='username') Username
             .col-sm-9
@@ -19,6 +19,12 @@ block content
             label.col-sm-3.control-label(for='password') Confirm
             .col-sm-9
               input#confirm.form-control(type='password', placeholder='Enter your password again')
+          .form-group
+            label.col-sm-3.control-label(for='sex') Sex
+            .col-sm-9
+              select#sex.form-control(name='sex')
+                option Male
+                option Female
           .form-group
             .col-sm-offset-3.col-sm-6
               button.btn.btn-success(type='submit') Sign up

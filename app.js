@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 //import mongodb & drivers, here we use mongojs
 var mongo = require('mongodb');
@@ -32,6 +33,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(session({secret: 'projectsecret'}));
 app.use('/', routes);
 app.use('/users', users);
 
