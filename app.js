@@ -68,5 +68,25 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// user socket.io
+
+var debug = require('debug')('nodejs-express-mongodb');
+// var app = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+var io = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
+    });
+});
+
 
 module.exports = app;

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www_socket"
   },
   "dependencies": {
     "express": "~4.9.0",
@@ -15,6 +15,7 @@
     "jade": "~1.6.0",
     "mongodb": "*",
     "mongojs": "*",
-    "express-session": "^1.7.6"
+    "express-session": "^1.7.6",
+    "socket.io": "~1.2.0"
   }
 }
