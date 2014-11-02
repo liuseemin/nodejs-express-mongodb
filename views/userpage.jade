@@ -3,8 +3,15 @@ extends layout
 block content
     script(src='/socket.io/socket.io.js')
     script(src='/javascripts/socket.js')
-    .container
-      h1= title
-      p Welcome to #{title}
-      p Login success!
-      a.btn.btn-default(href='/logout') Sign Out
+    nav.navbar.navbar-default
+    .container#main
+      .col-md-3#sidebar
+        h3 Users online
+        .list-group#users_online
+        - for (var user in userlist)
+          a.list-group-item= user
+      .col-md-9#content
+        h1= title
+        p Welcome to #{title}
+        p Login success!
+        a.btn.btn-default(href='/logout') Sign Out

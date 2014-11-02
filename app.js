@@ -9,7 +9,7 @@ var session = require('express-session');
 //import mongodb & drivers, here we use mongojs
 var mongo = require('mongodb');
 var mongojs = require('mongojs');
-var db = mongojs.connect('project', ['users']);
+var db = mongojs.connect('admin:roottoor@ds047940.mongolab.com:47940/nodejs-express-mongodb', ['users']);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -81,12 +81,7 @@ var server = app.listen(app.get('port'), function() {
 
 var io = require('socket.io').listen(server);
 
-io.sockets.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
-});
-
+//deal websocket request in socket_route.js
+require('./socket_route.js')(io);
 
 module.exports = app;
