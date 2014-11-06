@@ -1,17 +1,33 @@
 extends layout
 
 block content
+    audio#noticesound(src='/sounds/notice.wav')
+    script var username = '#{username}';
     script(src='/socket.io/socket.io.js')
     script(src='/javascripts/socket.js')
-    nav.navbar.navbar-default
     .container#main
+      nav.navbar.navbar-default(role='navigation')
+        .container-fluid
+          ul.nav.navbar-nav.navbar-left
+            li
+              p#notice.navbar-text(style='display:none;')
+                span.glyphicon.glyphicon-comment
+                span#message(style='margin-left: 5px;') New Message
+          ul.nav.navbar-nav.navbar-right
+            li
+              a#logout(href='/logout') Sign Out
       .col-md-3#sidebar
-        h3 Users online
+        h3 Online Users
         .list-group#users_online
-        - for (var user in userlist)
-          a.list-group-item= user
       .col-md-9#content
-        h1= title
-        p Welcome to #{title}
-        p Login success!
-        a.btn.btn-default(href='/logout') Sign Out
+        ul#tabs.nav.nav-tabs
+          li.active
+            a(href='#home', data-toggle='tab') Home
+          li
+            a(href='#test', data-toggle='tab') testTab
+        #tabcontent.tab-content
+          #home.tab-pane.active.fade.in
+            h1= title
+            p Hello #{username} ,Welcome to #{title}
+          #test.tab-pane.fade
+            h1 testpane

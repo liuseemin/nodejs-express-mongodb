@@ -10,12 +10,12 @@ router.all('*', checkAuth);
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Small Chat' });
 });
 
 /* GET login page. */
 router.get('/login', function(req, res) {
-  res.render('login', { title: 'The Resistance Game' });
+  res.render('login', { title: 'Small Chat' });
 });
 
 /* POST login page. */
@@ -36,10 +36,10 @@ router.post('/login', function(req, res) {
         req.session.access = user.role;
         res.redirect('/userpage');
       } else {
-        res.render('login', { title: 'The Resistance Game', loginmsg: 'Wrong username or password!' });
+        res.render('login', { title: 'Small Chat', loginmsg: 'Wrong username or password!' });
       }
     } else {
-      res.render('login', { title: 'The Resistance Game', loginmsg: 'Wrong username or password!' });
+      res.render('login', { title: 'Small Chat', loginmsg: 'Wrong username or password!' });
     }
   });
 });
@@ -52,7 +52,7 @@ router.get('/logout', function(req, res) {
 
 /* GET userpage page. */
 router.get('/userpage', function(req, res) {
-  res.render('userpage', { title: 'User page' });
+  res.render('userpage', { title: 'User page' , username: req.session.user_id});
 });
 
 /* GET signUp page. */
