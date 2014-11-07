@@ -1,6 +1,32 @@
 var socket = io.connect();
 
 socket.emit('login', {username: username});
+var msgpool = [];
+
+function hashCodeGenerator(Hashpool, num) {
+  var code = '';
+  while(code.length < num) {
+    for (var i = 0; i < num; i++) {
+      var rand = Math.ceil(Math.random() * 72 % 36) + 47;
+      var charcode;
+      if (rand <= 57)
+        charcode = String.fromCharCode(rand);
+      else
+        charcode = String.fromCharCode(rand + 7);
+      code = code + charcode;
+    }
+    if (Hashpool.indexOf(code) != -1) code = '';
+  }
+  Hashpool.push(code);
+  return code;
+}
+
+function createMsgDiv(targetid, name, msg, time, self) {
+  var msgHash = hashCodeGenerator(msgpool, 10);
+  $("<div class='msgDiv' id='msg" + msgHash + "' style='display:none;'><div class='msg_head col-xs-2' style='text-align:right;'>" + name + "</div><div class='msg_content col-xs-9'>" + msg + "</div><div class='msg_time col-xs-1'>" + time + "</div></div>").insertAfter(targetid + ' .startline');
+  if (self) $('#msg' + msgHash).addClass('self');
+  $('#msg' + msgHash).slideDown();
+}
 
 socket.on('updateUsers', function (data) {
   console.log(data.userlist);
@@ -21,7 +47,7 @@ socket.on('updateUsers', function (data) {
         $('div' + selector).remove();
         $(this).parentsUntil('#tabs').remove();
       });
-      var content = '<nav class="navbar navbar-default"><div class="container-fluid"><a class="navbar-brand">@' + data.userlist[this.id] + ':</a><form class="navbar-form" id="msgto' + data.userlist[this.id] + '"><div class="form-group" style="display:inline;"><input type="text" class="form-control" placeholder="Enter Message..."></div><button type="button" class="btn btn-default">Send</button></form></div></nav>';
+      var content = '<nav class="navbar navbar-default"><div class="container-fluid"><a class="navbar-brand">@' + data.userlist[this.id] + ':</a><form class="navbar-form" id="msgto' + data.userlist[this.id] + '"><div class="form-group" style="display:inline;"><input type="text" class="form-control" placeholder="Enter Message..."></div><button type="button" class="btn btn-default">Send</button></form></div></nav><div class="msgBox"><div class="startline" style="display:none"></div></div>';
 
       $('div#talkto' + data.userlist[this.id]).html(content);
       $("#tabs a[href='#talkto" + data.userlist[this.id] + "']").click( function (e) {
@@ -35,7 +61,10 @@ socket.on('updateUsers', function (data) {
         if (message.length > 0) {
           $('div#talkto' + data.userlist[target] + ' input').val('');
           socket.emit('talkto', {id: target, msg: message});
-          $('div#talkto' + data.userlist[target]).append("<div>" + username + ": " + message + "</div>");
+          
+          var date = new Date();
+          var sendtime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+          createMsgDiv('div#talkto' + data.userlist[target] + ' .msgBox', username, message, sendtime, true);
         }
       });
       $('#msgto' + data.userlist[this.id]).submit( function (e) {
@@ -60,7 +89,8 @@ socket.on('incomeMsg', function (data) {
     $('#notice').fadeIn();
     setTimeout(function(){$('#notice').fadeOut()}, 3000);
   }
-  $('div#talkto' + data.from).append("<div>" + data.from + ": " + data.msg + "</div>");
+  //$('div#talkto' + data.from + ' .msgBox').append("<div>" + data.from + ": " + data.msg + "</div>");
+  createMsgDiv('div#talkto' + data.from + ' .msgBox', data.from, data.msg, data.time, false);
 });
 
 $(document).ready( function () {
@@ -72,12 +102,4 @@ $(document).ready( function () {
     e.preventDefault();
     $(this).tab('show');
   });
-
-  /*$(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
-*/
 });

@@ -52,7 +52,7 @@ router.get('/logout', function(req, res) {
 
 /* GET userpage page. */
 router.get('/userpage', function(req, res) {
-  res.render('userpage', { title: 'User page' , username: req.session.user_id});
+  res.render('userpage', { title: 'User page' , username: req.session.user_id, role: req.session.access});
 });
 
 /* GET signUp page. */

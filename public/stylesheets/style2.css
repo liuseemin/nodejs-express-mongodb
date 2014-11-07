@@ -22,3 +22,35 @@
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+.msgDiv.self>.msg_head {
+	background-color: #BCD4E6;
+	padding: 5px;
+}
+
+.msgDiv.self>.msg_content {
+	background-color: #E7FEFF;
+	padding: 5px;
+}
+
+.msgDiv.self>.msg_time {
+	background-color: #E7FEFF;
+	color: #BCD4E6;
+	padding: 5px;
+}
+
+.msgDiv>.msg_head {
+	background-color: #FBCEB1;
+	padding: 5px;
+}
+
+.msgDiv>.msg_content {
+	background-color: #FFEFD5;
+	padding: 5px;
+}
+
+.msgDiv>.msg_time {
+	background-color: #FFEFD5;
+	color: #FBCEB1;
+	padding: 5px;
+}
