@@ -14,6 +14,9 @@ block content
                 span.glyphicon.glyphicon-comment
                 span#message(style='margin-left: 5px;') New Message
           ul.nav.navbar-nav.navbar-right
+            if role == "admin"
+              li
+                a(href='/manage') Manage
             li
               a#logout(href='/logout') Sign Out
       .col-md-3#sidebar

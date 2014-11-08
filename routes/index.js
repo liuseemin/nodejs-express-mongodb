@@ -23,7 +23,7 @@ router.post('/login', function(req, res) {
   var db = req.db;
   var namecheck = req.body.username;
   var pass = req.body.password;
-  console.log('Login ' + namecheck + ":" + pass);
+  //console.log('Login ' + namecheck + ":" + pass);
   db.users.findOne({username: namecheck}, function(err, user) {
     if (err) {
       console.log('read db error!');
@@ -102,6 +102,16 @@ router.get('/manage', function(req, res) {
   var db = req.db;
   db.users.find(function(err, users) {
   	res.render('manage', { title: 'Admin Manage Page', userlist: users});
+  });
+});
+
+/* Deal with account delete request */
+router.get('/deluser', function(req, res) {
+  var id = req.query.id;
+  var db = req.db;
+  db.user.remove({"_id": ObjectId(id)}, true);
+  db.users.find(function(err, users) {
+    res.send({userlist: users});
   });
 });
   

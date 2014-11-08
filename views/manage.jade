@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    script(src='/javascripts/manage.js')
     .container#main
       nav.navbar.navbar-default(role='navigation')
         .container-fluid
@@ -25,10 +26,27 @@ block content
             th _id
             th Role
             th Action
-        tbody
+            th Delete
+        tbody#ulist
           each user in userlist
             tr
               td= user.username
               td= user._id
               td= user.role
               td
+              td
+                button.btn.btn-link(data-toggle='modal', data-target='#confirm')
+                  span.glyphicon.glyphicon-trash
+                #confirm.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modaltitle', aria-hidden='true')
+                  .modal-dialog
+                    .modal-content
+                      .modal-header
+                        button.close(type='button', data-dismiss='modal')
+                          span(aria-hidden='true') &times;
+                          span.sr-only Cancel
+                        h4#modaltitle.modal-title Confirm Delete
+                      .modal-body
+                        p Are you sure to delete this account?
+                      .modal-footer
+                        button.btn.btn-defalut(data-dismiss='modal') Cancel
+                        button.btn.btn-danger.deluser(id='#{user._id}') Delete
