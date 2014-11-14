@@ -34,6 +34,17 @@ socket.on('updateUsers', function (data) {
   $('#users_online').empty();
   for (var id in data.userlist) {
   	$('#users_online').append("<a id='" + id + "' class='list-group-item talkto'>" + data.userlist[id] + "</a>");
+    if ($('#tabs.nav>li>a[href="#talkto' + data.userlist[id] + '"]').length != 0) {
+      $('div#talkto' + data.userlist[id] + ' button').off('click');
+      var target = id;
+      $('div#talkto' + data.userlist[id] + ' button').click( function () {
+        var message = $('div#talkto' + data.userlist[target] + ' input').val();
+        if (message.length > 0) {
+          $('div#talkto' + data.userlist[target] + ' input').val('');
+          socket.emit('talkto', {id: target, msg: message});
+        }
+      });
+    }
   }
   $('.talkto').click( function() {
     if ($('#tabs.nav>li>a[href="#talkto' + data.userlist[this.id] + '"]').length == 0) {
@@ -61,10 +72,6 @@ socket.on('updateUsers', function (data) {
         if (message.length > 0) {
           $('div#talkto' + data.userlist[target] + ' input').val('');
           socket.emit('talkto', {id: target, msg: message});
-          
-          var date = new Date();
-          var sendtime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-          createMsgDiv('div#talkto' + data.userlist[target] + ' .msgBox', username, message, sendtime, true);
         }
       });
       $('#msgto' + data.userlist[this.id]).submit( function (e) {
@@ -76,21 +83,23 @@ socket.on('updateUsers', function (data) {
 });
 
 socket.on('incomeMsg', function (data) {
-  //console.log(data.from + ": " + data.msg);
-  if ($('#tabs.nav>li>a[href="#talkto' + data.from + '"]').length == 0) $('.talkto#' + data.from_id).click();
-  if ($('div#talkto' + data.from).hasClass('active') == false) {
+  if (!data.self) { 
+    if ($('#tabs.nav>li>a[href="#talkto' + data.from + '"]').length == 0) $('.talkto#' + data.from_id).click();
+    if ($('div#talkto' + data.from).hasClass('active') == false) {
 
-    $('#noticesound')[0].load();
-    $('#noticesound')[0].play();
-    
-    var msgc = parseInt($('#tabs.nav>li>a[href="#talkto' + data.from + '"]>.badge').html());
-    $('#tabs.nav>li>a[href="#talkto' + data.from + '"]>.badge').html(++msgc);
-    $('#notice #message').html(data.from + ': ' + data.msg);
-    $('#notice').fadeIn();
-    setTimeout(function(){$('#notice').fadeOut()}, 3000);
+      $('#noticesound')[0].load();
+      $('#noticesound')[0].play();
+      
+      var msgc = parseInt($('#tabs.nav>li>a[href="#talkto' + data.from + '"]>.badge').html());
+      $('#tabs.nav>li>a[href="#talkto' + data.from + '"]>.badge').html(++msgc);
+      $('#notice #message').html(data.from + ': ' + data.msg);
+      $('#notice').fadeIn();
+      setTimeout(function(){$('#notice').fadeOut()}, 3000);
+    }
+    createMsgDiv('div#talkto' + data.from + ' .msgBox', data.from, data.msg, data.time, data.self);
+  } else {
+    createMsgDiv('div#talkto' + data.to + ' .msgBox', data.from, data.msg, data.time, data.self);
   }
-  //$('div#talkto' + data.from + ' .msgBox').append("<div>" + data.from + ": " + data.msg + "</div>");
-  createMsgDiv('div#talkto' + data.from + ' .msgBox', data.from, data.msg, data.time, false);
 });
 
 $(document).ready( function () {

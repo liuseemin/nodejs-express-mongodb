@@ -100,19 +100,38 @@ router.post('/signup', function(req, res) {
 /* GET try bootstrap page. */
 router.get('/manage', function(req, res) {
   var db = req.db;
-  db.users.find(function(err, users) {
-  	res.render('manage', { title: 'Admin Manage Page', userlist: users});
-  });
+  if (req.query.action) {
+    var id = req.query.id;
+    switch(req.query.action) {
+      case 'delete':
+        db.users.remove({"_id": db.ObjectId(id)}, function(err, doc) {
+          res.send(id);
+        });
+        break;
+      case 'upgrade':
+        db.users.update({"_id": db.ObjectId(id)}, {$set: {role: 'admin'}}, function(err, doc) {
+          res.send(id);
+        });
+        break;
+      case 'downgrade':
+        db.users.update({"_id": db.ObjectId(id)}, {$set: {role: 'user'}}, function(err, doc) {
+          res.send(id);
+        });
+        break;
+    }
+  } else {
+    db.users.find(function(err, users) {
+      res.render('manage', { title: 'Admin Manage Page', userlist: users});
+    });
+  }
 });
 
 /* Deal with account delete request */
 router.get('/deluser', function(req, res) {
-  var id = req.query.id;
+  
+  console.log('Admin delete user_id: ' + id);
   var db = req.db;
-  db.user.remove({"_id": ObjectId(id)}, true);
-  db.users.find(function(err, users) {
-    res.send({userlist: users});
-  });
+  
 });
   
 module.exports = router;

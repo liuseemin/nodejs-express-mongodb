@@ -54,3 +54,7 @@
 	color: #FBCEB1;
 	padding: 5px;
 }
+
+.vertical-center {
+	vertical-align: middle;
+}

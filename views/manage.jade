@@ -13,7 +13,6 @@ block content
           ul.nav.navbar-nav.navbar-right
             li
               a(href='/userpage') User Page
-          ul.nav.navbar-nav.navbar-right
             li
               a#logout(href='/logout') Sign Out
 
@@ -29,24 +28,25 @@ block content
             th Delete
         tbody#ulist
           each user in userlist
-            tr
+            tr(id='data' + '#{user._id}')
               td= user.username
               td= user._id
               td= user.role
               td
               td
-                button.btn.btn-link(data-toggle='modal', data-target='#confirm')
-                  span.glyphicon.glyphicon-trash
-                #confirm.modal.fade(tabindex='-1', role='dialog', aria-labelledby='modaltitle', aria-hidden='true')
-                  .modal-dialog
-                    .modal-content
-                      .modal-header
-                        button.close(type='button', data-dismiss='modal')
-                          span(aria-hidden='true') &times;
-                          span.sr-only Cancel
-                        h4#modaltitle.modal-title Confirm Delete
-                      .modal-body
-                        p Are you sure to delete this account?
-                      .modal-footer
-                        button.btn.btn-defalut(data-dismiss='modal') Cancel
-                        button.btn.btn-danger.deluser(id='#{user._id}') Delete
+                if user.role != 'admin'
+                  button.btn.btn-link(data-toggle='modal', data-target='#confirm' + '#{user._id}')
+                    span.glyphicon.glyphicon-trash
+                  .modal.fade(id='confirm' + '#{user._id}', tabindex='-1', role='dialog', aria-labelledby='modaltitle', aria-hidden='true')
+                    .modal-dialog
+                      .modal-content
+                        .modal-header
+                          button.close(type='button', data-dismiss='modal')
+                            span(aria-hidden='true') &times;
+                            span.sr-only Cancel
+                          h4#modaltitle.modal-title Confirm Delete
+                        .modal-body
+                          p Are you sure to delete this account?
+                        .modal-footer
+                          button.btn.btn-defalut(data-dismiss='modal') Cancel
+                          button.btn.btn-danger.deluser(id='#{user._id}', data-dismiss='modal') Delete

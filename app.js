@@ -82,6 +82,6 @@ var server = app.listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 //deal websocket request in socket_route.js
-require('./socket_route.js')(io);
+require('./socket_route.js')(io, db);
 
 module.exports = app;

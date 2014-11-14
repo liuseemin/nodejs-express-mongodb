@@ -6,7 +6,7 @@ function checkAuth(req, res, next) {
         next();
         break;
       default:
-        res.send('You are not authorized to view this page');
+        res.send('<h2>Please Login!<h2><h4>Redirect in 3 secs...</h4><script>setTimeout(function(){location.href="/login"}, 3000);</script>');
     }
   } else if (typeof req.session.user_id != 'undefined') {
     if (req.session.access == 'admin') {
@@ -24,7 +24,7 @@ function checkAuth(req, res, next) {
         case '/signup':
           res.redirect('/userpage');
         case '/manage':
-          res.send('You are not authorized to view this page');
+          res.send('<h2>You are not authorized to view this page</h2>');
         default:
           next();
       }

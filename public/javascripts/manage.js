@@ -1,13 +1,13 @@
 $(document).ready( function() {
   $('.deluser').click( function() {
+    console.log(this.id);
     var parameters = {
-      id: $(this).id
+      id: this.id,
+      action: 'delete'
     };
-    $.get('/signup', parameters, function(data) {
-      $('#list').empty();
-      for (var u in data.userlist) {
-        
-      }
-    }
+    $.get('/manage', parameters, function(data) {
+      console.log(data);
+      $('#data' + data).remove();
+    });
   });
 });
